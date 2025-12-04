@@ -1,4 +1,6 @@
 # OneBuild – Construction E-Commerce Website (Frontend Only)
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/39cbc232-3b72-4d86-9715-e1bd4637e20e" />
+
 
 OneBuild is a modern construction materials e-commerce frontend built using **HTML, CSS, and JavaScript**.  
 It includes product categories, dynamic banners, videos, contact details, and Google Maps integration.  
