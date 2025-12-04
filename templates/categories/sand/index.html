@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sand — Bricks & Blocks Mart</title>
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header container">
+  <div class="brand">
+    <img src="/images/homepages/onebuild.png" alt="brand">
+    <div>
+      <div class="title">One-Build</div>
+      <div class="subtitle">Sand Materials</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="/templates/homepageindex.html">Home</a>
+    <a href="/templates/categories/glass_glazing/index.html">Glass</a>
+    <a href="/templates/categories/electrics/index.html">Electrics</a>
+    <a href="/templates/categories/paints/index.html">Paints</a>
+
+    <button class="cart-btn" onclick="location.href='/frdevlop/templates/cart.html'">
+      Cart <span id="cart-badge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+  <h1 class="page-title">Sand</h1>
+  <div class="category-title">All Sand Products</div>
+
+  <section class="grid" id="products-grid"></section>
+</main>
+
+<!-- QUICK VIEW MODAL -->
+<div id="modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-box">
+
+        <button id="closeModal" class="modal-close" aria-label="Close">×</button>
+
+        <div class="modal-left">
+            <img id="modalImg" class="modal-img" alt="product image">
+        </div>
+
+        <div class="modal-right">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDesc" class="modal-desc"></p>
+
+            <div id="modalTags" class="tag-container"></div>
+
+            <h3 class="modal-price">₹<span id="modalPrice"></span></h3>
+
+            <label for="modalQty">Qty</label>
+            <input type="number" id="modalQty" value="1" min="1" class="qty-input">
+
+            <div class="modal-buttons">
+                <button class="add-btn" id="modalAddToCart">Add to cart</button>
+                <a href="/templates/cartpayment/cart.html" class="order-btn">Go to order</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/javascript/cart.js"></script>
+<script>
+/* ---------------------------
+   SAND PRODUCT DATA (5 TAGS + 5-LINE DESCRIPTION)
+--------------------------- */
+const productsArray = [
+  {
+    id: "sand-river",
+    name: "River Sand",
+    price: 1299,
+    tags: ["Natural", "Construction", "Plastering", "Concrete", "Bulk Orders Available"],
+    img: "/images/sand/riversand.jpg",
+    desc: "High-quality natural river sand suitable for plastering and construction.\n" +
+          "Smooth texture ensures strong bonding with cement.\n" +
+          "Ideal for both residential and commercial projects.\n" +
+          "Washed and graded for consistent particle size.\n" +
+          "Available in bulk for large-scale building projects."
+  },
+  {
+    id: "sand-m",
+    name: "M-Sand",
+    price: 899,
+    tags: ["Crushed", "Concrete", "Durable", "Eco-friendly", "Bulk Orders Available"],
+    img: "/images/sand/msand.avif",
+    desc: "Manufactured sand produced by crushing hard granite stones.\n" +
+          "Consistent grain size ensures high-quality concrete.\n" +
+          "Ideal for RCC, masonry, and plaster work.\n" +
+          "Eco-friendly alternative to river sand.\n" +
+          "Bulk supply available for contractors."
+  },
+  {
+    id: "sand-p",
+    name: "P-Sand (Plastering)",
+    price: 799,
+    tags: ["Fine", "Plastering", "Smooth Finish", "Lightweight", "Bulk Orders Available"],
+    img: "/images/sand/psand.jpg",
+    desc: "Fine-grade P-sand ideal for smooth plastering applications.\n" +
+          "Ensures crack-free and even wall finishes.\n" +
+          "Lightweight for easy handling.\n" +
+          "Reduces water consumption during mixing.\n" +
+          "Available for bulk orders for contractors."
+  },
+  {
+    id: "sand-pit",
+    name: "Pit Sand",
+    price: 699,
+    tags: ["Coarse", "Masonry", "Durable", "Construction", "Bulk Orders Available"],
+    img: "/images/sand/pit1sand.jpg",
+    desc: "Coarse pit sand commonly used for masonry and RCC works.\n" +
+          "Strong bonding ensures durable structures.\n" +
+          "Ideal for foundation and brickwork.\n" +
+          "Washed and graded to remove impurities.\n" +
+          "Bulk supply available for construction projects."
+  },
+  {
+    id: "sand-sea",
+    name: "Sea Sand",
+    price: 599,
+    tags: ["Coastal", "Washed", "Plastering", "Affordable", "Bulk Orders Available"],
+    img: "/images/sand/seasand.jpg",
+    desc: "Washed sea sand suitable for filling and low-cost construction work.\n" +
+          "Free from silt and salt for better bonding.\n" +
+          "Lightweight and easy to transport.\n" +
+          "Ideal for leveling and bedding applications.\n" +
+          "Available in bulk for large projects."
+  },
+  {
+    id: "sand-desert",
+    name: "Desert Sand",
+    price: 499,
+    tags: ["Fine", "Landscaping", "Soft Texture", "Eco-friendly", "Bulk Orders Available"],
+    img: "/images/sand/desertsand.jpg",
+    desc: "Ultra-fine desert sand typically used for landscaping projects.\n" +
+          "Smooth texture for decorative finishes.\n" +
+          "Lightweight and easy to spread.\n" +
+          "Ideal for gardens, playgrounds, and pathways.\n" +
+          "Available in bulk for commercial landscaping."
+  },
+  {
+    id: "sand-silica",
+    name: "Silica Sand",
+    price: 1899,
+    tags: ["High Purity", "Industrial", "Glass Manufacturing", "Foundry Use",],
+    img: "/images/sand/silicasand.jpg",
+    desc: "High-purity silica sand used in glass manufacturing and foundries.\n" +
+          "Ensures clarity and strength in glass products.\n" +
+          "Used in casting and molding applications.\n" +
+          "Consistent grain size for industrial processes.\n" +
+          "Available in bulk for factories and production units."
+  },
+  {
+    id: "sand-quartz",
+    name: "Quartz Sand",
+    price: 1599,
+    tags: ["Quartz", "Industrial", "Resin Flooring", "Filtration", "Bulk Orders Available"],
+    img: "/images/sand/quartzsand.jpg",
+    desc: "High-quality quartz sand used for resin flooring and filtration.\n" +
+          "Hard and durable for industrial flooring.\n" +
+          "Perfect for water filtration systems.\n" +
+          "Uniform particle size for consistent performance.\n" +
+          "Available in bulk for large-scale projects."
+  },
+  {
+    id: "sand-recycled",
+    name: "Recycled Sand",
+    price: 649,
+    tags: ["Eco-friendly", "Recycled", "Cost-effective", "Bulk Orders Available"],
+    img: "/images/sand/recycled.png",
+    desc: "Recycled sand from processed construction waste.\n" +
+          "Reduces environmental impact of sand extraction.\n" +
+          "Suitable for plastering and concrete work.\n" +
+          "Cost-effective solution for builders.\n" +
+          "Available in bulk for sustainable projects."
+  },
+  {
+    id: "sand-crushed",
+    name: "Crushed Stone Sand",
+    price: 1099,
+    tags: ["Angular", "Concrete", "Durable", "Construction", "Bulk Orders Available"],
+    img: "/images/sand/Crushed Stone Sand.png",
+    desc: "Crushed stone sand with angular grains suitable for concrete mixes.\n" +
+          "Provides high-strength bonding for RCC.\n" +
+          "Washed and graded for consistency.\n" +
+          "Durable for heavy-duty construction work.\n" +
+          "Available for bulk supply to contractors."
+  }
+];
+
+/* ---------------------------
+   INITIALIZE PAGE
+--------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts(productsArray, "products-grid");
+});
+
+// EXTEND MODAL WITH DESCRIPTION
+const oldModal = window.openModal;
+window.openModal = function(id, arr){
+  const list = arr || productsArray;
+  const p = list.find(x => x.id === id);
+  if (!p) return oldModal(id, list);
+  oldModal(id, list);
+  document.getElementById("m-desc").innerText = p.desc;
+};
+</script>
+
+</body>
+</html>

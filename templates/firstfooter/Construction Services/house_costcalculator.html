@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>One-Build | Construction Cost Calculator</title>
+
+  <!-- Styles (full) -->
+  <style>
+    :root{
+      --accent:#f07a00;
+      --muted:#666;
+      --card-bg:#fff;
+      --panel:#ffffff;
+      --green:#2b9d3a;
+      --nav-height:64px;
+      font-family: Inter, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      /* Background wallpaper from Unsplash (construction) */
+      background: url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80") no-repeat center center fixed;
+      background-size:cover;
+      color:#150a0a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-weight:600;
+      position:relative;
+      min-height:100%;
+      line-height:1.35;
+    }
+
+    /* subtle overlay for readability */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:rgba(255,255,255,0.78);
+      backdrop-filter: blur(4px);
+      z-index:-1;
+    }
+
+    /* NAVBAR */
+    .nav {
+      position:sticky;
+      top:0;
+      z-index:40;
+      height:var(--nav-height);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.88));
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 18px rgba(12,40,60,0.04);
+    }
+    .nav .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo {
+      width:44px;
+      height:44px;
+      background:linear-gradient(135deg,var(--accent),#ffb86b);
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      color:white;
+      font-weight:800;
+      font-size:18px;
+      box-shadow:0 6px 18px rgba(12,40,60,0.06);
+    }
+    .brand h2{ margin:0; font-size:16px; letter-spacing:0.2px; }
+    .nav-links {
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .nav-links a {
+      text-decoration:none;
+      color:#1f2937;
+      padding:8px 12px;
+      border-radius:8px;
+      font-size:14px;
+    }
+    .nav-links a:hover{ background:rgba(16,24,40,0.04) }
+    /* dropdown */
+    .dropdown {
+      position:relative;
+    }
+    .drop-toggle{
+      cursor:pointer;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:8px;
+      font-size:14px;
+    }
+    .dropdown-menu{
+      position:absolute;
+      right:0;
+      top:calc(var(--nav-height) + 8px);
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.06);
+      box-shadow:0 8px 24px rgba(16,24,40,0.08);
+      padding:8px;
+      border-radius:8px;
+      min-width:220px;
+      display:none;
+      flex-direction:column;
+      gap:6px;
+      z-index:60;
+    }
+    .dropdown-menu a{
+      padding:8px;
+      text-decoration:none;
+      color:#111827;
+      font-size:14px;
+      border-radius:6px;
+    }
+    .dropdown-menu a:hover{ background: #f3f4f6; }
+
+    .cta {
+      background:var(--accent);
+      color:white;
+      padding:8px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      margin-left:6px;
+      box-shadow:0 8px 18px rgba(240,122,0,0.12);
+    }
+
+    /* PAGE WRAP & HERO */
+    .wrap{
+      max-width:1100px;
+      margin:18px auto;
+      position:relative;
+      padding:18px;
+    }
+
+    /* subtle floating construction image */
+    .bg-illustration{
+      position:absolute;
+      right:-40px;
+      top:50px;
+      width:520px;
+      height:auto;
+      pointer-events:none;
+      opacity:0.22;
+      filter: blur(1px) saturate(0.9);
+      transform: rotate(-4deg);
+      z-index:0;
+    }
+
+    header.banner{
+      position:relative;
+      z-index:5;
+      padding:12px 8px;
+      margin-bottom:10px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-direction:column;
+      text-align:center;
+    }
+    header.banner .title h1{ margin:6px 0 4px 0; font-size:20px; color:#0b2540; }
+    header.banner .title p{ margin:0; color:var(--muted); font-size:13px; max-width:880px; }
+
+    .content{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:18px;
+      padding:8px;
+      position:relative;
+      z-index:6;
+    }
+
+    /* GLASS PANELS */
+    .box, .panel{
+      background:rgba(255,255,255,0.92);
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.5);
+      backdrop-filter:blur(8px);
+      box-shadow:0 12px 28px rgba(0,0,0,0.10);
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    select, input[type="number"]{
+      width:100%;
+      padding:10px 12px;
+      font-size:15px;
+      border:1px solid #ddd;
+      border-radius:8px;
+      margin-bottom:12px;
+      box-sizing:border-box;
+      outline:none;
+      background:rgba(255,255,255,0.96);
+    }
+    select:focus, input[type="number"]:focus{ border-color:rgba(0,0,0,0.12); box-shadow:0 4px 20px rgba(16,24,40,0.03) inset; }
+
+    .btn{
+      display:inline-block;
+      background:var(--accent);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+
+    .result{
+      margin-top:14px;
+      font-size:16px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      justify-content:space-between;
+    }
+    .total{
+      font-size:22px;
+      font-weight:800;
+      color:#0b4f78;
+    }
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* output panel */
+    .output{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .panel h3{ margin:0 0 8px 0; font-size:15px; color:#333; }
+    .stage{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      padding:10px 0;
+      border-bottom:1px dashed #eee;
+    }
+    .stage:last-child{ border-bottom:0; }
+    .stage .left{ flex:1; }
+    .stage .right{
+      width:160px;
+      text-align:right;
+      font-weight:700;
+      color:#0b4f78;
+    }
+
+    .items{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+    .item{
+      background:#fff;
+      border:1px solid #eee;
+      padding:8px;
+      border-radius:8px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      font-size:13px;
+    }
+    .item .name{ color:var(--muted); font-weight:700; }
+    .item .amt{ font-weight:800; color:#333; }
+
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    footer{
+      padding:18px;
+      background:linear-gradient(0deg,#fff,#fff);
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+      margin-top:16px;
+      border-radius:8px;
+    }
+
+    /* small screens */
+    @media (max-width:980px){
+      .content{ grid-template-columns:1fr; padding:14px; }
+      header.banner{ flex-direction:column; align-items:flex-start; gap:10px; padding:12px; text-align:left; }
+      header.banner img{ height:60px; }
+      .output{ order:2; }
+      .bg-illustration{ display:none; }
+      .nav-links{ display:none; }
+      .mobile-toggle{ display:inline-flex; }
+      .nav { padding:0 12px; }
+    }
+
+    /* mobile menu (simple) */
+    .mobile-toggle{
+      display:none;
+      background:transparent;
+      border:0;
+      font-size:18px;
+      cursor:pointer;
+    }
+
+    /* small helpers */
+    .muted{ color:var(--muted); font-weight:500; font-size:13px; }
+    .row{ display:flex; gap:8px; align-items:center; }
+
+    /* show dropdown when .open class set (toggled by JS) */
+    .dropdown.open .dropdown-menu{ display:flex; }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+ <nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="brand" style="display:flex;align-items:center;gap:12px">
+    <img src="/images/homepages/onebuild.png" alt="OneBuild Logo" style="height:48px; width:auto; border-radius:6px;" />
+    <div>
+      <div class="muted" style="font-size:12px;">Construction & Supplies</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="nav-links" role="menubar" aria-label="Primary">
+      <a href="/templates/homepageindex.html" role="menuitem">Home</a>
+      <a href="/templates/firstfooter/Construction Services/house_contractors.html">Contractor-Details</a>
+      <a href="/templates/navcenter/services.html" role="menuitem">Services</a>
+      <a href="/templates/firstfooter/customersupport/contact.html">Contact</a>
+</nav>
+
+  <div class="wrap">
+
+    <!-- floating construction image -->
+    <img src="https://images.unsplash.com/photo-1581091870622-d2a98f760cdd?auto=format&fit=crop&w=1000&q=80"
+         class="bg-illustration" alt="construction illustration">
+
+    <header class="banner">
+      <div class="title">
+        <h1>One-Build Construction Cost Calculator</h1>
+        <p>Quick estimate for building a house — cost / sq.ft, materials & builder charges, broken down by stage. Adjust assumptions in the script for local rates.</p>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- left: form -->
+      <div class="box" style="min-height:320px;">
+        <label for="location">Select Location</label>
+        <select id="location" aria-label="location">
+          <option value="rural" selected>Rural</option>
+          <option value="urban">Urban</option>
+          <option value="metro">Metro/City</option>
+        </select>
+
+        <label for="area">Enter Area (Sqft)</label>
+        <input id="area" type="number" min="100" placeholder="Please enter area in square feet" aria-label="area" />
+
+        <div style="display:flex; gap:10px; align-items:center; margin-top:6px;">
+          <button id="calcBtn" class="btn">CALCULATE</button>
+          <button id="resetBtn" class="btn" style="background:#eee;color:#111;">RESET</button>
+        </div>
+
+        <div class="result" aria-live="polite">
+          <div>
+            <div class="small">Total Estimated Expenditure</div>
+            <div id="totalDisplay" class="total">—</div>
+            <div id="rangeDisplay" class="small" style="margin-top:4px;"></div>
+          </div>
+          <div style="text-align:right">
+            <div class="small">Estimated cost / sqft</div>
+            <div id="perSqft" style="font-weight:700; font-size:18px;">—</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Disclaimer:</strong> Values are estimates using average cost/sqft per location. Actual cost varies by material quality, finishes, labor and site conditions.
+        </div>
+      </div>
+
+      <!-- right: outputs -->
+      <div class="output">
+        <div class="panel" id="summaryPanel" aria-live="polite">
+          <h3>Estimate Summary</h3>
+          <div class="stage">
+            <div class="left">
+              <div class="small">Pre-Construction Stage</div>
+              <div style="font-size:13px;color:var(--muted)">Design, permits, site prep</div>
+            </div>
+            <div id="preAmt" class="right">—</div>
+          </div>
+
+          <div class="stage">
+            <div class="left">
+              <div class="small">Construction Stage</div>
+              <div style="font-size:13px;color:var(--muted)">Materials, labor, contractor</div>
+            </div>
+            <div id="consAmt" class="right">—</div>
+          </div>
+
+          <div class="stage">
+            <div class="left">
+              <div class="small">Finishing Stage</div>
+              <div style="font-size:13px;color:var(--muted)">Plumbing, electrical, paint, fixtures</div>
+            </div>
+            <div id="finAmt" class="right">—</div>
+          </div>
+        </div>
+
+        <div class="panel" id="breakdownPanel">
+          <h3>Detailed Breakdown</h3>
+
+          <div id="preItems" class="items" aria-hidden="false"></div>
+
+          <div style="margin-top:8px; font-weight:700; color:var(--muted); font-size:13px;">Construction items</div>
+          <div id="consItems" class="items" style="margin-top:8px;"></div>
+
+          <div style="margin-top:8px; font-weight:700; color:var(--muted); font-size:13px;">Finishing items</div>
+          <div id="finItems" class="items" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="panel" id="notes">
+          <h3>How this works</h3>
+          <p class="small">Pick location → enter area → calculator uses a base cost per sqft for the location, computes total and then splits into three stages. You can adjust the per-sqft values in the script if you want different cost assumptions.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Built for quick estimates — Adjust numbers for your local rates and contractor quotes. Manager: Banavath Mahendher — <a href="mailto:mahibanavath979@gmail.com">mahibanavath979@gmail.com</a>
+    </footer>
+
+  </div>
+
+  <!-- Script (full) -->
+  <script>
+    // base per sqft costs (Rs) by location — tweak these to match local market
+    const basePerSqft = {
+      rural: 1200,   // Rs per sqft in rural (example)
+      urban: 1500,
+      metro: 1800
+    };
+
+    // Stage shares of total
+    const stageShares = {
+      pre: 0.07,      // 7% Pre-construction
+      cons: 0.70,     // 70% Construction
+      fin: 0.23       // 23% Finishing
+    };
+
+    // Detailed items weights inside each stage (these are relative weights; they will be normalized)
+    const preWeights = {
+      designFees: 0.6,
+      borewell: 0.4
+    };
+
+    const consWeights = {
+      marking: 0.03,
+      sand: 0.06,
+      cement: 0.13,
+      bricks: 0.09,
+      stoneAggregates: 0.05,
+      concreteContractor: 0.12,
+      steel: 0.07,
+      electricalWork: 0.06,
+      plumbingSanitation: 0.08,
+      formwork: 0.06,
+      compoundWall: 0.03,
+      water: 0.02
+    };
+
+    const finWeights = {
+      flooring: 0.30,
+      paint: 0.22,
+      doorsWindows: 0.18,
+      sanitaryware: 0.16,
+      misc: 0.14
+    };
+
+    // utility: format INR
+    function formatINR(x){
+      if (isNaN(x)) return "—";
+      return "Rs " + Number(x).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    // normalize helper: returns object where values sum to 1
+    function normalizeWeights(obj){
+      const sum = Object.values(obj).reduce((s,v)=>s+(parseFloat(v)||0),0);
+      const res = {};
+      if (sum === 0) {
+        const n = Object.keys(obj).length;
+        for (const k of Object.keys(obj)) res[k] = 1/n;
+        return res;
+      }
+      for (const k of Object.keys(obj)) res[k] = (parseFloat(obj[k])||0)/sum;
+      return res;
+    }
+
+    // render items container
+    function renderItems(containerId, itemsObj){
+      const c = document.getElementById(containerId);
+      c.innerHTML = '';
+      for (const [key,val] of Object.entries(itemsObj)){
+        const el = document.createElement('div');
+        el.className = 'item';
+        const name = document.createElement('div');
+        name.className='name';
+        // human readable label
+        const label = key.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+        name.textContent = label;
+        const amt = document.createElement('div');
+        amt.className = 'amt';
+        amt.textContent = formatINR(val);
+        el.appendChild(name);
+        el.appendChild(amt);
+        c.appendChild(el);
+      }
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      const loc = document.getElementById('location').value;
+      const area = Number(document.getElementById('area').value);
+      if (!area || area <= 0) {
+        alert("Please enter a valid area in square feet (e.g. 1000).");
+        return;
+      }
+
+      // base per sqft
+      const per = basePerSqft[loc] || basePerSqft.rural;
+      const total = per * area;
+
+      // show per sqft and total and a small price range (±4%)
+      document.getElementById('perSqft').textContent = formatINR(per);
+      document.getElementById('totalDisplay').textContent = formatINR(total);
+      const low = total * 0.96;
+      const high = total * 1.04;
+      document.getElementById('rangeDisplay').textContent = `${formatINR(low)} - ${formatINR(high)} (approx range)`;
+
+      // stage amounts
+      const preAmt = total * stageShares.pre;
+      const consAmt = total * stageShares.cons;
+      const finAmt = total * stageShares.fin;
+
+      document.getElementById('preAmt').textContent = formatINR(preAmt);
+      document.getElementById('consAmt').textContent = formatINR(consAmt);
+      document.getElementById('finAmt').textContent = formatINR(finAmt);
+
+      // compute detailed items using normalized weights
+      const preN = normalizeWeights(preWeights);
+      const consN = normalizeWeights(consWeights);
+      const finN = normalizeWeights(finWeights);
+
+      const preItems = {};
+      for (const k of Object.keys(preN)) preItems[k] = preAmt * preN[k];
+
+      const consItems = {};
+      for (const k of Object.keys(consN)) consItems[k] = consAmt * consN[k];
+
+      const finItems = {};
+      for (const k of Object.keys(finN)) finItems[k] = finAmt * finN[k];
+
+      // render to UI
+      renderItems('preItems', preItems);
+      renderItems('consItems', consItems);
+      renderItems('finItems', finItems);
+
+      // scroll summary into view on mobile
+      document.getElementById('summaryPanel').scrollIntoView({behavior:'smooth'});
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=> {
+      document.getElementById('area').value = '';
+      document.getElementById('totalDisplay').textContent = '—';
+      document.getElementById('perSqft').textContent = '—';
+      document.getElementById('rangeDisplay').textContent = '';
+      document.getElementById('preAmt').textContent = '—';
+      document.getElementById('consAmt').textContent = '—';
+      document.getElementById('finAmt').textContent = '—';
+      ['preItems','consItems','finItems'].forEach(id=>document.getElementById(id).innerHTML='');
+    });
+
+    // keyboard enter support
+    document.getElementById('area').addEventListener('keydown', (e)=> {
+      if (e.key === 'Enter') document.getElementById('calcBtn').click();
+    });
+
+    // seed example
+    (function seedExample(){
+      document.getElementById('area').value = 1000;
+    })();
+
+    // dropdown toggles for navbar (safe: check elements exist)
+    function toggleDrop(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.toggle('open');
+      const toggle = el.querySelector('.drop-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', el.classList.contains('open'));
+    }
+
+    // safe attach: only if elements exist
+    const shopToggle = document.getElementById('shopToggle');
+    if(shopToggle) shopToggle.addEventListener('click', ()=>toggleDrop('shopDrop'));
+
+    // close dropdowns when clicking outside
+    document.addEventListener('click', (e)=> {
+      const shop = document.getElementById('shopDrop');
+      if (shop && !shop.contains(e.target)) shop.classList.remove('open');
+    });
+
+    // mobile toggle: show/hide primary links by toggling display
+    const mobileToggle = document.getElementById('mobileToggle');
+    mobileToggle && mobileToggle.addEventListener('click', ()=>{
+      const links = document.querySelector('.nav-links');
+      if (!links) return;
+      if (links.style.display === 'flex') links.style.display = 'none';
+      else links.style.display = 'flex';
+    });
+  </script>
+
+</body>
+</html>

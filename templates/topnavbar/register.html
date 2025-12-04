@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+
+  <link rel="stylesheet" href="/css/register.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <main class="login-container">
+    <form class="login-box" id="registerForm" autocomplete="off">
+      <h2><i class="fa fa-user-plus"></i> Register</h2>
+
+      <!-- USERNAME -->
+      <label for="username">Username</label>
+      <div class="input-group">
+        <i class="fa fa-user"></i>
+        <input type="text" id="username" name="username" required />
+      </div>
+
+      <!-- EMAIL -->
+      <label for="email">Email</label>
+      <div class="input-group">
+        <i class="fa fa-envelope"></i>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <!-- PASSWORD -->
+      <label for="password">Password</label>
+      <div class="input-group">
+        <i class="fa fa-lock"></i>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox" id="showPassword" /> Show password</label>
+        <a href="forget.html">Forgot password?</a>
+      </div>
+
+      <button type="submit">Register</button>
+
+      <p class="register-link">
+        Already have an account? <a href="login.html">Login</a>
+      </p>
+    </form>
+  </main>
+
+  <!-- VALIDATION SCRIPT -->
+  <script>
+    const form = document.getElementById("registerForm");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // stop page reload
+
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      /* ------------------------------
+          USERNAME VALIDATION
+      ------------------------------ */
+      const usernamePattern = /^[a-zA-Z0-9]{3,15}$/;
+      if (!usernamePattern.test(username)) {
+        alert("❌ Username must be 3-15 characters (letters & numbers only).");
+        return;
+      }
+
+      /* ------------------------------
+          EMAIL VALIDATION
+      ------------------------------ */
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // only gmail allowed
+      if (!emailPattern.test(email)) {
+        alert("❌ Enter a valid Gmail address (example@gmail.com).");
+        return;
+      }
+
+      /* ------------------------------
+          PASSWORD VALIDATION
+      ------------------------------ */
+      const passwordPattern =
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+      if (!passwordPattern.test(password)) {
+        alert(
+          "❌ Password must contain:\n• Minimum 6 characters\n• One uppercase letter\n• One lowercase letter\n• One number"
+        );
+        return;
+      }
+
+      /* ------------------------------
+          ALL VALID → SUCCESS
+      ------------------------------ */
+      alert("✅ Registration successful! Your details are valid.");
+    });
+
+    /* ------------------------------
+        PASSWORD SHOW/HIDE
+    ------------------------------ */
+    document.getElementById("showPassword").addEventListener("change", function () {
+      const passwordInput = document.getElementById("password");
+      passwordInput.type = this.checked ? "text" : "password";
+    });
+  </script>
+</body>
+
+</html>
