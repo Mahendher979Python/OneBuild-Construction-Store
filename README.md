@@ -1,26 +1,40 @@
-# OneBuild – Construction E-Commerce Website (Frontend)
+# OneBuild – Construction E-Commerce Website (Frontend Only)
 
-OneBuild is a modern construction materials e-commerce frontend built using HTML, CSS, and JavaScript.  
-It includes product categories, banners, videos, contact details, and Google Maps integration.  
-The platform also features a builder registration system, where builders can submit their details to receive contracts.
+OneBuild is a modern construction materials e-commerce frontend built using **HTML, CSS, and JavaScript**.  
+It includes product categories, dynamic banners, videos, contact details, and Google Maps integration.  
+The platform also features a complete **user system (Register, Login, Forgot Password)** and a **builder registration system** where builders can submit their details to receive contracts.
+
+---
 
 ## 🚀 Features
 
-- 👥 Register, Login, Forget Password
-- 🔀 Order products, tracking details, 
-- 🧱 Construction material categories
-- 🎞️ Dynamic banners & video section
-- 🧭 Google Maps integrated contact page
-- 📱 Fully responsive UI design
-- 🧾 Builder registration form (frontend)
-- 🎨 Clean and modern styling with pure HTML, CSS & JS
+### 🔐 User System
+- 👥 Register page  
+- 🔑 Login page  
+- ❓ Forgot password page  
 
+### 🛒 Shopping Features
+- 🏗️ Order construction materials  
+- ⏳ Order tracking details  
+
+### 🧱 Website Sections
+- 🧱 Construction material categories  
+- 🎞️ Dynamic banners slider  
+- 🎬 Video section  
+- 🗺️ Google Maps embedded contact page  
+- 📱 Fully responsive layout  
+- 🧾 Builder registration form (frontend)  
+- 🎨 Clean and modern UI/UX created using pure **HTML, CSS & JS**  
+
+---
 
 ## 🛠️ Tech Stack
 
-- HTML5  
-- CSS3  
-- JavaScript (Vanilla)  
+- **HTML5**  
+- **CSS3**  
+- **JavaScript (Vanilla JS)**  
+
+---
 
 ## 📂 Folder Structure
 
