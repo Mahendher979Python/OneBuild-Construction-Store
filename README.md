@@ -39,6 +39,8 @@ The platform also features a complete **user system (Register, Login, Forgot Pas
 - **JavaScript (Vanilla JS)**  
 
 ---
+<img width="1354" height="3736" alt="OneBuild_LongView" src="https://github.com/user-attachments/assets/f57725ad-35d4-4666-9e06-62f401c0f416" />
+
 
 ## 📂 Folder Structure
 
