@@ -14,7 +14,8 @@ The platform also features a complete **user system (Register, Login, Forgot Pas
 - 👥 Register page  
 - 🔑 Login page  
 - ❓ Forgot password page  
-<img width="504" height="381" alt="Forget" src="https://github.com/user-attachments/assets/5b09689b-15fd-4a96-a631-f1ed5a82cf78" />
+<img width="1837" height="640" alt="onebuild_screens_combined" src="https://github.com/user-attachments/assets/65dc2f71-ef58-4df9-ab16-fa17c5981b62" />
+
 
 ### 🛒 Shopping Features
 - 🏗️ Order construction materials  
