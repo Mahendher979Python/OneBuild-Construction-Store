@@ -6,12 +6,15 @@ The platform also features a builder registration system, where builders can sub
 
 ## 🚀 Features
 
+- 👥 Register, Login, Forget Password
+- 🔀 Order products, tracking details, 
 - 🧱 Construction material categories
 - 🎞️ Dynamic banners & video section
 - 🧭 Google Maps integrated contact page
 - 📱 Fully responsive UI design
 - 🧾 Builder registration form (frontend)
 - 🎨 Clean and modern styling with pure HTML, CSS & JS
+
 
 ## 🛠️ Tech Stack
 
