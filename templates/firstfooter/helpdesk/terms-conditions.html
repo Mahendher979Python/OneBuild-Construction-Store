@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terms & Conditions — ONE-BUILD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --accent:#ff7b00;
+  --bg:#f3f5f9;
+  --text:#3e3232;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* NAVBAR UPDATED */
+.navbar{
+  width:100%;
+  background:white; /* White navbar */
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  border-bottom:1px solid #e5e5e5;
+  z-index:1000;
+}
+.navbar .logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:black;         /* Changed to black */
+  font-weight:700;
+  font-size:18px;
+}
+.navbar img{
+  height:40px;
+  width:40px;
+  border-radius:8px;
+}
+
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+.nav-links a{
+  color:black;        /* Text black */
+  text-decoration:none;
+  font-size:15px;
+  padding:8px 14px;
+  border-radius:6px;
+  transition:0.3s;
+  font-weight:600;
+}
+.nav-links a:hover{
+  background:rgba(0,0,0,0.08); /* Light grey hover */
+}
+
+/* HERO SECTION */
+.hero{
+  height:240px;
+  background:url('https://images.unsplash.com/photo-1581092334607-7ce09f5db473?auto=format&fit=crop&w=1400&q=60') center/cover no-repeat;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+}
+.hero h1{
+  position:relative;
+  color:white;
+  font-size:40px;
+  z-index:10;
+}
+
+/* CONTAINER */
+.wrapper{
+  max-width:1100px;
+  margin:40px auto;
+  background:var(--card);
+  padding:35px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* HEADINGS */
+h2{
+  margin-top:26px;
+  color:#1e40af;
+  border-left:5px solid var(--accent);
+  padding-left:12px;
+}
+
+/* COPY BTN */
+.copy-btn{
+  background:var(--accent);
+  border:none;
+  color:white;
+  padding:6px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  margin-left:8px;
+}
+
+/* MSG */
+#copy-msg{
+  margin-top:12px;
+  color:green;
+  font-weight:600;
+  display:none;
+}
+
+/* REVEAL ANIMATION */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.7s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:700px){
+  .wrapper{padding:20px}
+  h2{font-size:18px}
+  .hero h1{font-size:28px}
+  .nav-links{flex-wrap:wrap;gap:6px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">
+    <img src="/images/homepages/onebuild.png" alt="OneBuild">
+
+  </div>
+  <div class="nav-links">
+    <a href="/templates/homepage.html">Home</a>
+    <a href="/templates/firstfooter/helpdesk/shipping-policy.html">Shipping Policy</a>
+    <a href="/templates/firstfooter/helpdesk/refundreturns.html">Refund Policy</a>
+    <a href="/templates/footer/about.html">About</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Terms & Conditions</h1>
+</section>
+
+<div class="wrapper">
+
+  <p class="reveal">
+    Welcome to <strong>ONE-BUILD</strong>, operated by <strong>Speshway Solutions Pvt. Ltd.</strong>.
+    By accessing our platform, you agree to the Terms & Conditions mentioned below.
+  </p>
+
+  <h2 class="reveal">Introduction</h2>
+  <p class="reveal">By using this website or mobile app, you accept all policies applied here.</p>
+
+  <h2 class="reveal">Eligibility</h2>
+  <p class="reveal">You must be 18+ years old to make purchases or register.</p>
+
+  <h2 class="reveal">Products & Services</h2>
+  <p class="reveal">All construction and material services depend on availability.</p>
+
+  <h2 class="reveal">Pricing & Payments</h2>
+  <p class="reveal">Prices may change without notice due to market variations.</p>
+
+  <h2 class="reveal">Delivery</h2>
+  <p class="reveal">Delivery time depends on distance, supplier stock & logistics.</p>
+
+  <h2 class="reveal">Returns & Refunds</h2>
+  <p class="reveal">Refund is available only for damaged/incorrect items.</p>
+
+  <h2 class="reveal">Cancellations</h2>
+  <p class="reveal">Order cancellation allowed before dispatch only.</p>
+
+  <h2 class="reveal">User Feedback</h2>
+  <p class="reveal">Feedback can be used for improving services with no obligation.</p>
+
+  <h2 class="reveal">Privacy Policy</h2>
+  <p class="reveal">Your data is protected. See our full Privacy Policy page.</p>
+
+  <h2 class="reveal">Contact Details</h2>
+
+  <p class="reveal">
+    📧 <strong id="email">support@onebuild.in</strong>
+    <button class="copy-btn" onclick="copyEmail()">Copy</button>
+  </p>
+
+  <p class="reveal">
+    📞 <strong id="phone">+91 63018 87155</strong>
+    <button class="copy-btn" onclick="copyPhone()">Copy</button>
+  </p>
+
+  <p id="copy-msg">Copied!</p>
+
+</div>
+
+<script>
+function copyEmail(){
+  navigator.clipboard.writeText(document.getElementById("email").innerText);
+  showMsg();
+}
+function copyPhone(){
+  navigator.clipboard.writeText(document.getElementById("phone").innerText);
+  showMsg();
+}
+function showMsg(){
+  let e=document.getElementById("copy-msg");
+  e.style.display="block";
+  setTimeout(()=> e.style.display="none",1500);
+}
+
+// scroll reveal
+const reveals=document.querySelectorAll(".reveal");
+function revealOnScroll(){
+  reveals.forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 80){
+      el.classList.add("visible");
+    }
+  });
+}
+window.addEventListener("scroll",revealOnScroll);
+revealOnScroll();
+</script>
+
+</body>
+</html>

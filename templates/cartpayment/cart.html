@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cart — OneBuild</title>
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+
+<header class="header container">
+  <div class="brand">
+    <img src="/images/homepages/onebuild.png" alt="brand">
+    <div>
+      <div class="subtitle">OneBuild — Cart</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="/templates/index.html">Home</a>
+    <a href="/templates/categories/aggregates/index.html">Aggregates</a>
+    <a href="/templates/categories/bricks_blocks/index.html">Bricks</a>
+    <button class="cart-btn">Cart <span id="cart-badge">0</span></button>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="page-title">Your Cart</h1>
+  <div id="cart-container"></div>
+
+  <div style="margin-top:18px;display:flex;gap:12px;">
+    <button class="btn" onclick="localStorage.setItem('global_ecom_cart_v1', JSON.stringify([])); renderCartPage('cart-container'); updateCartBadge();">
+      <span style="color: red;"> Clear Cart</span>
+    </button>
+  </div>
+</main>
+
+<script src="/javascript/cart.js"></script>
+<script>
+  // Render cart table on load
+  document.addEventListener('DOMContentLoaded', function(){
+    renderCartPage('cart-container');
+    updateCartBadge();
+  });
+</script>
+</body>
+</html>

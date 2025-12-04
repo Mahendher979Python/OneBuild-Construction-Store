@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TMT Steel & One Build</title>
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header container">
+  <div class="brand">
+    <img src="/images/homepages/onebuild.png" alt="brand">
+    <div>
+      <div class="title">One-Build</div>
+      <div class="subtitle">TMT Steel & Reinforcement</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="/templates/homepageindex.html">Home</a>
+    <a href="/templates/categories/flooring/index.html">Florring</a>
+    <a href="/templates/categories/aggregates/index.html">Aggregates</a>
+    <a href="/templates/categories/bricks_blocks/index.html">Bricks</a>
+
+    <button class="cart-btn" onclick="location.href='/templates/cartpayment/cart.html'">
+      Cart <span id="cart-badge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+  <h1 class="page-title">TMT Steel</h1>
+  <div class="category-title">All TMT Steel Products</div>
+
+  <section class="grid" id="products-grid"></section>
+</main>
+
+<!-- QUICK VIEW MODAL -->
+<div id="modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-box">
+
+        <button id="closeModal" class="modal-close" aria-label="Close">×</button>
+
+        <div class="modal-left">
+            <img id="modalImg" class="modal-img" alt="product image">
+        </div>
+
+        <div class="modal-right">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDesc" class="modal-desc"></p>
+
+            <div id="modalTags" class="tag-container"></div>
+
+            <h3 class="modal-price">₹<span id="modalPrice"></span></h3>
+
+            <label for="modalQty">Qty</label>
+            <input type="number" id="modalQty" value="1" min="1" class="qty-input">
+
+            <div class="modal-buttons">
+                <button class="add-btn" id="modalAddToCart">Add to cart</button>
+                <a href="/templates/cartpayment/cart.html" class="order-btn">Go to order</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/javascript/cart.js"></script>
+<script>
+/* ---------------------------
+   TMT STEEL PRODUCTS (6 ITEMS, 5 TAGS + 5-LINE DESCRIPTIONS)
+--------------------------- */
+const productsArray = [
+  {
+    id: "tmt-fe500",
+    name: "TMT FE-500 Grade Steel Bar (12mm)",
+    price: 680,
+    tags: ["FE-500","Construction","High Strength","Reinforcement","Bulk Orders Available"],
+    img: "/images/tmtbars/TMTFe500steelbars.png",
+    desc: "High-strength FE-500 TMT bar suitable for beams, slabs, and heavy structural elements.\n" +
+          "Ensures strong bonding with concrete for durable structures.\n" +
+          "Corrosion-resistant for long-term performance.\n" +
+          "Ideal for residential and commercial constructions.\n" +
+          "Available in bulk for contractors and large projects."
+  },
+  {
+    id: "tmt-fe550d",
+    name: "TMT FE-550D Grade Steel Bar(12mm)",
+    price: 720,
+    tags: ["FE-550D","Ductile","Earthquake Resistant","Bulk Orders Available"],
+    img: "/images/tmtbars/TMT FE-550D Grade Steel Bar12m.png",
+    desc: "Premium FE-550D TMT bar with superior ductility for earthquake-resistant structures.\n" +
+          "High tensile strength ensures safe and long-lasting construction.\n" +
+          "Ideal for high-rise buildings and heavy load-bearing columns.\n" +
+          "Manufactured under strict quality standards.\n" +
+          "Available in bulk for large-scale construction projects."
+  },
+  {
+    id: "tmt-fe600",
+    name: "TMT FE-600 Super Grade All (mm sizes)",
+    price: 760,
+    tags: ["FE-600","All","Super Strength","High Load evary","Reinforcement","Bulk Orders Available","Construction"],
+    img: "/images/tmtbars/TMT FE-600 Super Grade.png",
+    desc: "FE-600 super strong TMT bar ideal for high-rise and heavy load-bearing construction.\n" +
+          "Ensures maximum strength and stability of structures.\n" +
+          "Corrosion-resistant for long-term durability.\n" +
+          "Perfect for industrial and commercial projects.\n" +
+          "Available in bulk for contractors and builders."
+  },
+  {
+    id: "tmt-binding-wire",
+    name: "Binding Wire (1kg) All type's and mm a-z sizes",
+    price: 95,
+    tags: ["Wire","Support","Flexible","Strong","Bulk Orders Available","Construction"],
+    img: "/images/tmtbars/TMTBindingWire.png",
+    desc: "Flexible and strong binding wire used for tying rebar joints and reinforcement cages.\n" +
+          "Ensures proper alignment of steel bars in RCC works.\n" +
+          "Durable and easy to handle on construction sites.\n" +
+          "Corrosion-resistant for long-term performance.\n" +
+          "Available in bulk for contractor requirements."
+  },
+  {
+    id: "tmt-stirrups",
+    name: "MS Ring Stirrups (8mm)",
+    price: 38,
+    tags: ["Stirrups","Pre-made","Reinforcement","Bulk Orders Available"],
+    img: "/images/tmtbars/MS Ring Stirrups (8mm).png",
+    desc: "Factory-made MS stirrups used for beam-column reinforcement.\n" +
+          "Ensures proper spacing and structural integrity.\n" +
+          "High-strength steel for long-lasting performance.\n" +
+          "Ideal for both small and large-scale construction.\n" +
+          "Available in bulk for contractors."
+  },
+  {
+    id: "tmt-corrugated",
+    name: "Corrugated Steel Sheet",
+    price: 1450,
+    tags: ["Sheet","Roofing","Steel","Durable","Bulk Orders Available"],
+    img: "/images/tmtbars/Corrugated Steel Sheet.png",
+    desc: "Corrugated mild steel sheet used for roofing and temporary sheds.\n" +
+          "Durable and weather-resistant for long-term usage.\n" +
+          "Easy to install for residential and commercial structures.\n" +
+          "Lightweight and convenient for transportation.\n" +
+          "Available in bulk for large-scale construction projects."
+  }
+];
+
+/* ---------------------------
+   INITIALIZE PAGE
+--------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts(productsArray, "products-grid");
+});
+
+/* ---------------------------
+   EXTEND MODAL FOR DESCRIPTION
+--------------------------- */
+const oldModal = window.openModal;
+window.openModal = function(id, arr){
+  const list = arr || productsArray;
+  const p = list.find(x => x.id === id);
+  if (!p) return oldModal(id, list);
+  oldModal(id, list);
+  document.getElementById("m-desc").innerText = p.desc;
+};
+</script>
+
+</body>
+</html>

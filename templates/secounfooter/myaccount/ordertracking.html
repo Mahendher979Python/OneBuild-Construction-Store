@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking - OneBuild</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #000;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            width: 100%;
+            padding: 16px 40px;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid #d1d5db;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e1e1e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 15px;
+            color: #2d2d2d;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+        }
+
+        /* HEADER */
+        .header {
+            background: #131313;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 22px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .tracking-container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .track-box {
+            background: #fff;
+            border: 1px solid #cfcfcf;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .track-status {
+            padding: 6px 12px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .done { background: #28a745; }
+        .processing { background: #007bff; }
+        .pending { background: #ffc107; color: #000; }
+        .cancelled { background: #dc3545; }
+
+        .timeline {
+            border-left: 3px solid #131313;
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .step {
+            margin: 10px 0;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            background: #131313;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+    <div class="logo">ONE-BUILD</div>
+
+    <ul>
+        <li><a href="/templates/homepageindex.html">Home</a></li>
+        <li><a href="/templates/firstfooter/customersupport/contact.html">Contact</a></li>
+        <li><a href="/templates/secounfooter/overview/about.html">About</a></li>
+        <li><a href="/templates/orders/myorders.html">My Orders</a></li>
+    </ul>
+</nav>
+
+<!-- HEADER -->
+<header class="header">ONE-BUILD | ORDER TRACKING</header>
+
+<!-- PAGE TITLE -->
+<div class="page-title">
+    <h2>Track Your Order</h2>
+    <p>Enter your Order ID to check live status</p>
+</div>
+
+<!-- MAIN TRACKING BOX -->
+<div class="tracking-container">
+    <div class="track-box">
+
+        <!-- Search Order -->
+        <label><strong>Enter Order ID:</strong></label><br>
+        <input type="text" id="orderInput" placeholder="e.g., ORD12345" 
+               style="padding:10px;width:70%;border:1px solid #aaa;border-radius:5px;">
+        <br><br>
+
+        <label><strong>Enter Your Gmail:</strong></label><br>
+        <input type="email" id="emailInput" placeholder="example@gmail.com"
+               style="padding:10px;width:70%;border:1px solid #aaa;border-radius:5px;">
+        <br><br>
+
+        <button onclick="trackOrder()" 
+                style="padding:10px 20px;background:#007bff;color:white;border:none;border-radius:5px;">
+            Track Order
+        </button>
+
+        <br><br>
+
+        <!-- ORDER DETAILS OUTPUT -->
+        <div id="trackingResult"></div>
+
+    </div>
+</div>
+
+<script>
+/* ORDER DATA – STATIC */
+const trackData = {
+    "ORD12345": {
+        id: "ORD12345",
+        status: "Delivered",
+        amount: "₹18,500",
+        date: "2025-01-21",
+        steps: [
+            { title: "Order Placed", time: "Jan 21, 10:32 AM" },
+            { title: "Packed", time: "Jan 21, 1:15 PM" },
+            { title: "Shipped", time: "Jan 22, 9:00 AM" },
+            { title: "Out for Delivery", time: "Jan 23, 8:30 AM" },
+            { title: "Delivered Successfully", time: "Jan 23, 12:45 PM" }
+        ]
+    },
+
+    "ORD12346": {
+        id: "ORD12346",
+        status: "Pending",
+        amount: "₹6,200",
+        date: "2025-01-28",
+        steps: [
+            { title: "Order Placed", time: "Jan 28, 2:10 PM" },
+            { title: "Pending Confirmation", time: "Awaiting..." }
+        ]
+    },
+
+    "ORD12347": {
+        id: "ORD12347",
+        status: "Cancelled",
+        amount: "₹22,300",
+        date: "2025-02-02",
+        steps: [
+            { title: "Order Placed", time: "Feb 02, 11:00 AM" },
+            { title: "Cancelled", time: "Feb 02, 12:15 PM" }
+        ]
+    }
+};
+
+/* TRACK FUNCTION */
+function trackOrder() {
+    const orderID = document.getElementById("orderInput").value.trim();
+    const email = document.getElementById("emailInput").value.trim();
+    const box = document.getElementById("trackingResult");
+
+    if (orderID === "" || email === "") {
+        box.innerHTML = `<p style="color:red; font-weight:bold;">⚠ Please enter both Order ID and Gmail!</p>`;
+        return;
+    }
+
+    if (!email.endsWith("@gmail.com")) {
+        box.innerHTML = `<p style="color:red; font-weight:bold;">⚠ Please enter a valid Gmail address!</p>`;
+        return;
+    }
+
+    if (!trackData[orderID]) {
+        box.innerHTML = `<p style="color:red; font-weight:bold;">❌ Order ID not found!</p>`;
+        return;
+    }
+
+    const order = trackData[orderID];
+
+    let html = `
+        <h3>Order ID: ${order.id}</h3>
+        <p><strong>Date:</strong> ${order.date}</p>
+        <p><strong>Total Amount:</strong> ${order.amount}</p>
+        <p><strong>Status:</strong> 
+           <span class="track-status ${order.status.toLowerCase()}">${order.status}</span>
+        </p>
+
+        <h3>Tracking Timeline:</h3>
+        <div class="timeline">
+    `;
+
+    order.steps.forEach(step => {
+        html += `
+            <div class="step">
+                <span class="dot"></span>
+                <strong>${step.title}</strong><br>
+                <small>${step.time}</small>
+            </div>
+        `;
+    });
+
+    html += "</div>";
+    box.innerHTML = html;
+}
+</script>
+
+</body>
+</html>

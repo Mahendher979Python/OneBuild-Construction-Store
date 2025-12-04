@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — OneBuild</title>
+  <link rel="stylesheet" href="/css/cart.css">
+  <style>
+    /* small extra styles for form layout */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .full{grid-column:1/-1}
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+    label{font-size:13px;color:var(--muted)}
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select {
+      padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:#0b0d10;color:var(--text)
+    }
+    .payments-row{display:flex;gap:12px;flex-wrap:wrap}
+    .pay-option{display:flex;gap:8px;align-items:center;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+    .pay-option input{margin-right:6px}
+    .payment-logos img{height:30px;margin-right:8px}
+    .profile-save{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .small-muted{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+<header class="header container">
+  <div class="brand">
+    <img src="/images/homepages/onebuild.png" alt="brand">
+    <div><div class="subtitle">Checkout</div></div>
+  </div>
+
+  <div class="nav">
+    <a href="/templates/index.html">Home</a>
+    <a href="/templates/cartpayment/cart.html">Cart</a>
+    <a href="/templates/orders/track.html">Track Order</a>
+    <button class="cart-btn" onclick="location.href='/templates/cartpayment/cart.html'">Cart <span id="cart-badge">0</span></button>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="page-title">Checkout</h1>
+
+  <div style="display:grid;grid-template-columns:1fr 420px;gap:24px">
+    
+    <!-- Left: Customer details & payment -->
+    <div>
+      <h3>Delivery & Contact Details</h3>
+
+      <div class="form-grid" id="profileForm">
+        <div class="field">
+          <label for="inpName">Full name</label>
+          <input id="inpName" type="text" placeholder="Your name">
+        </div>
+
+        <div class="field">
+          <label for="inpEmail">Email</label>
+          <input id="inpEmail" type="email" placeholder="you@example.com">
+        </div>
+
+        <div class="field">
+          <label for="inpPhone">Phone</label>
+          <input id="inpPhone" type="tel" placeholder="9876543210">
+        </div>
+
+        <div class="field">
+          <label for="inpVillage">Village / Colony</label>
+          <input id="inpVillage" type="text" placeholder="Village or colony">
+        </div>
+
+        <div class="field">
+          <label for="inpMandal">Mandal / Taluk</label>
+          <input id="inpMandal" type="text" placeholder="Mandal / Taluk">
+        </div>
+
+        <div class="field">
+          <label for="inpDistrict">District</label>
+          <input id="inpDistrict" type="text" placeholder="District">
+        </div>
+
+        <div class="field">
+          <label for="inpState">State</label>
+          <input id="inpState" type="text" placeholder="State">
+        </div>
+
+        <div class="field full">
+          <label for="inpAddress">Full Address</label>
+          <textarea id="inpAddress" rows="3" placeholder="House no., street, landmark"></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="inpPincode">Pincode</label>
+          <input id="inpPincode" type="number" placeholder="PIN">
+        </div>
+
+        <div class="full profile-save">
+          <input type="checkbox" id="saveProfileCheckbox">
+          <label for="saveProfileCheckbox" class="small-muted">Save this address & contact as profile</label>
+          <button class="btn" id="loadSavedProfileBtn">Load Saved</button>
+        </div>
+
+      </div>
+
+      <hr style="margin:16px 0;border-color:rgba(255,255,255,0.03)">
+
+      <h3>Payment Method</h3>
+      <div class="payments-row">
+        <label class="pay-option"><input type="radio" name="payment" value="card" checked>Card (Credit/Debit)</label>
+        <label class="pay-option"><input type="radio" name="payment" value="upi">UPI</label>
+        <label class="pay-option"><input type="radio" name="payment" value="netbanking">NetBanking</label>
+        <label class="pay-option"><input type="radio" name="payment" value="cod">Cash on Delivery</label>
+      </div>
+
+      <div id="paymentArea" style="margin-top:12px"></div>
+
+      <div style="margin-top:18px">
+        <button class="btn" id="btnPlaceOrder">Place Order</button>
+        <button class="btn" onclick="window.location='/templates/cartpayment/cart.html'">Back to cart</button>
+      </div>
+    </div>
+
+    <!-- Right: Order summary -->
+    <aside style="background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:14px;border-radius:12px">
+      <h3>Order Summary</h3>
+      <div id="checkoutSummary"></div>
+
+      <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
+
+      <h4>Payment Options</h4>
+      <div class="payment-logos" style="display:flex;gap:8px;flex-wrap:wrap">
+          <img src="/images/icons/mastercard.png">
+          <img src="/images/icons/visacard.png">
+          <img src="/images/icons/amex.png">
+          <img src="/images/icons/paypal.png">
+          <img src="/images/icons/emi.png">
+          <img src="/images/icons/rupay.png">
+          <img src="/images/icons/cash.png">
+        </div>
+    </aside>
+  </div>
+</main>
+
+<script src="/javascript/cart.js"></script>
+<script>
+
+// ==========================
+// STEP-BY-STEP SUMMARY FORMAT
+// ==========================
+function renderCheckoutSummary(){
+  const box = document.getElementById('checkoutSummary');
+  const cart = getCart();
+  if(!cart.length){
+    box.innerHTML = '<p>Your cart is empty.</p>';
+    return;
+  }
+
+  let subtotal = 0;
+  let html = `<div style="padding-left:8px;border-left:2px solid rgba(255,255,255,0.1)">`;
+
+  cart.forEach((p, i) => {
+    const rowTotal = p.price * p.qty;
+    subtotal += rowTotal;
+
+    html += `
+      <div style="margin-bottom:12px">
+        <div><strong>Step ${i + 1}:</strong> ${p.name}</div>
+        <div style="font-size:13px;color:var(--muted)">Category: ${p.category || "General"}</div>
+        <div style="font-size:13px;color:var(--muted)">Quantity: ${p.qty}</div>
+        <div style="font-size:13px;color:var(--muted)">Total: ₹${rowTotal.toLocaleString()}</div>
+      </div>
+    `;
+  });
+
+  html += `
+    <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
+    <div style="display:flex;justify-content:space-between">
+      <strong>Subtotal</strong><strong>₹${subtotal.toLocaleString()}</strong>
+    </div>
+    <div style="margin-top:6px;display:flex;justify-content:space-between;color:var(--muted)">
+      <span>Delivery</span><span>₹0</span>
+    </div>
+    <div style="margin-top:10px;display:flex;justify-content:space-between">
+      <strong>Grand Total</strong><strong>₹${subtotal.toLocaleString()}</strong>
+    </div>
+  </div>
+  `;
+
+  box.innerHTML = html;
+}
+
+// Load Profile
+function loadProfileToForm(){
+  const profile = JSON.parse(localStorage.getItem('onebuild_profile') || 'null');
+  if(!profile) return;
+  document.getElementById('inpName').value = profile.name || "";
+  document.getElementById('inpEmail').value = profile.email || "";
+  document.getElementById('inpPhone').value = profile.phone || "";
+  document.getElementById('inpVillage').value = profile.village || "";
+  document.getElementById('inpMandal').value = profile.mandal || "";
+  document.getElementById('inpDistrict').value = profile.district || "";
+  document.getElementById('inpState').value = profile.state || "";
+  document.getElementById('inpAddress').value = profile.address || "";
+  document.getElementById('inpPincode').value = profile.pincode || "";
+}
+
+document.getElementById('loadSavedProfileBtn').addEventListener('click', loadProfileToForm);
+
+// Payment Area
+function renderPaymentArea(){
+  const type = document.querySelector('input[name="payment"]:checked').value;
+  const area = document.getElementById('paymentArea');
+  area.innerHTML = '';
+
+  if(type === 'card'){
+    area.innerHTML = `
+      <div class="field full"><label>Cardholder Name</label><input id="cardName" type="text"></div>
+      <div class="field"><label>Card Number</label><input id="cardNumber" type="text"></div>
+      <div style="display:flex;gap:8px">
+        <input id="cardExpiry" placeholder="MM/YY" style="flex:1;padding:10px;">
+        <input id="cardCvv" placeholder="CVV" style="width:120px;padding:10px;">
+      </div>
+    `;
+  } else if(type === 'upi'){
+    area.innerHTML = `
+      <div class="field"><label>UPI ID</label><input id="upiId" type="text"></div>
+      <div class="small-muted">You will be redirected to complete payment (simulation).</div>
+    `;
+  } else if(type === 'netbanking'){
+    area.innerHTML = `
+      <div class="field"><label>Choose Bank</label>
+        <select id="netbankSelect">
+          <option value="sbi">State Bank of India</option>
+          <option value="hdfc">HDFC Bank</option>
+          <option value="icici">ICICI Bank</option>
+          <option value="axis">Axis Bank</option>
+        </select>
+      </div>
+      <div class="small-muted">You will be redirected to bank page (simulation).</div>
+    `;
+  } else if(type === 'cod'){
+    area.innerHTML = `<div class="small-muted">Pay with cash to delivery partner on arrival.</div>`;
+  }
+}
+
+document.querySelectorAll('input[name="payment"]').forEach(el=>el.addEventListener('change', renderPaymentArea));
+renderPaymentArea();
+
+// Initial render
+renderCheckoutSummary();
+
+// Place Order
+document.getElementById('btnPlaceOrder').addEventListener('click', function(){
+  const name = document.getElementById('inpName').value.trim();
+  const email = document.getElementById('inpEmail').value.trim();
+  const phone = document.getElementById('inpPhone').value.trim();
+  const village = document.getElementById('inpVillage').value.trim();
+  const mandal = document.getElementById('inpMandal').value.trim();
+  const district = document.getElementById('inpDistrict').value.trim();
+  const state = document.getElementById('inpState').value.trim();
+  const address = document.getElementById('inpAddress').value.trim();
+  const pincode = document.getElementById('inpPincode').value.trim();
+
+  if(!name || !phone || !address || !pincode){
+    return alert('Please fill name, phone, address and pincode.');
+  }
+
+  const paymentType = document.querySelector('input[name="payment"]:checked').value;
+
+  let paymentDetails = { method: paymentType };
+  if(paymentType === 'card'){
+    paymentDetails.cardName = document.getElementById('cardName')?.value || '';
+    paymentDetails.cardNumber = document.getElementById('cardNumber')?.value || '';
+  } else if(paymentType === 'upi'){
+    paymentDetails.upiId = document.getElementById('upiId')?.value || '';
+  } else if(paymentType === 'netbanking'){
+    paymentDetails.bank = document.getElementById('netbankSelect')?.value || '';
+  }
+
+  const cart = getCart();
+  if(!cart.length) return alert('Cart is empty');
+
+  let total = cart.reduce((s,p)=>s + (p.price * p.qty), 0);
+
+  const orderId = 'ORD' + Date.now().toString().slice(-8) + Math.floor(Math.random()*90+10);
+  const order = {
+    orderId,
+    createdAt: new Date().toISOString(),
+    status: 'Pending',
+    customer: { name, email, phone, village, mandal, district, state, address, pincode },
+    payment: paymentDetails,
+    items: cart,
+    totals: { subtotal: total, delivery: 0, grand: total }
+  };
+
+  const existing = JSON.parse(localStorage.getItem('orders') || '[]');
+  existing.unshift(order);
+  localStorage.setItem('orders', JSON.stringify(existing));
+
+  if(document.getElementById('saveProfileCheckbox').checked){
+    const profile = { name, email, phone, village, mandal, district, state, address, pincode };
+    localStorage.setItem('onebuild_profile', JSON.stringify(profile));
+  }
+
+  saveCart([]);
+  updateCartBadge();
+  window.location = '/templates/cartpayment/success.html?order=' + encodeURIComponent(orderId);
+});
+
+document.addEventListener('DOMContentLoaded', loadProfileToForm);
+</script>
+
+</body>
+</html>

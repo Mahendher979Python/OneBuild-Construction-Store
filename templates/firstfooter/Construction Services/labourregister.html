@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Labour Entry – OneBuild</title>
+
+<style>
+:root{
+  --brand:#05AECB;
+  --accent:#ff7b00;
+  --bg:#f5f5f5;
+  --text:#333;
+  --muted:#6b7280;
+  --paper:#ffffff;
+  --shadow:0 10px 40px rgba(0,0,0,0.07);
+  --border:1px solid #e4e4e4;
+}
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+</style>
+
+<!-- ============================
+        NAVBAR
+============================ -->
+<style>
+.navbar {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  padding: 12px 0;
+}
+.nav-container {
+  width: 92%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-left { display: flex; align-items: center; gap: 14px; }
+.nav-left img { width: 42px; }
+.nav-left .brand { font-size: 20px; font-weight: 700; color: var(--accent); }
+
+.nav-right { display: flex; gap: 18px; align-items: center; }
+.nav-right a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  padding: 8px 12px;
+  transition: 0.2s;
+}
+.nav-right a:hover { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .nav-container { flex-direction: column; gap: 10px; }
+}
+</style>
+
+<!-- ============================
+        FORM STYLES
+============================ -->
+<style>
+.form-container{
+  max-width: 900px;
+  margin: 40px auto;
+  background: var(--paper);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  border: var(--border);
+}
+
+h1{
+  color: var(--brand);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group{
+  margin-bottom: 18px;
+}
+label{
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+input, select, textarea{
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--brand);
+}
+
+.photo-box{
+  border: 2px dashed #aaa;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+.photo-box input{ border:none; }
+
+.btn-submit{
+  width: 100%;
+  background: var(--brand);
+  padding: 12px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.btn-submit:hover{
+  background:#0498b4;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ============================
+          NAVBAR
+============================ -->
+<div class="navbar">
+  <div class="nav-container">
+    <div class="nav-left">
+      <img src="/images/homepages/onebuild.png">
+    </div>
+
+    <div class="nav-right">
+      <a href="/templates/homepageindex.html">Home</a>
+      <a href="/templates/firstfooter/Construction Services/labourform.html">Offline Form</a>
+      <a href="/templates/topnavbar/business_register.html">Business Register</a>
+      <a href="/templates/firstfooter/customersupport/contact.html">Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+       ONLINE ENTRY FORM
+============================ -->
+<div class="form-container">
+  <h1>Online Labour Entry Form</h1>
+
+  <form id="labourForm">
+
+    <!-- Photo Upload -->
+    <div class="form-group photo-box">
+      <label>Upload Labour Photo</label>
+      <input type="file" accept="image/*" required>
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" placeholder="Enter labour name" required>
+    </div>
+
+    <!-- Aadhaar -->
+    <div class="form-group">
+      <label>Aadhaar Number</label>
+      <input type="number" placeholder="0000 0000 0000" required>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+      <label>Address</label>
+      <textarea rows="3" placeholder="Enter full address" required></textarea>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input type="number" placeholder="Enter phone number" required>
+    </div>
+
+    <div class="form-group">
+      <label>Work Type</label>
+      <select required>
+        <option value="">Select work type</option>
+        <option>Mason</option>
+        <option>Helper</option>
+        <option>Carpenter</option>
+        <option>Painter</option>
+        <option>Electrician</option>
+        <option>Plumber</option>
+        <option>Tiles Worker</option>
+        <option>POP Worker</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Daily Wage (₹)</label>
+      <input type="number" placeholder="Enter wage per day" required>
+    </div>
+
+    <div class="form-group">
+      <label>Experience (Years)</label>
+      <input type="number" placeholder="Enter labour experience" required>
+    </div>
+
+    <div class="form-group">
+      <label>Emergency Contact</label>
+      <input type="number" placeholder="Enter emergency phone number" required>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit Entry</button>
+
+  </form>
+
+</div>
+
+<!-- ============================
+          SUBMIT SCRIPT
+============================ -->
+<script>
+document.getElementById("labourForm").addEventListener("submit", function(e){
+  e.preventDefault(); // stop page reload
+  alert("✔ Labour Entry Submitted Successfully!");
+  this.reset(); // clears the form
+});
+</script>
+
+</body>
+</html>

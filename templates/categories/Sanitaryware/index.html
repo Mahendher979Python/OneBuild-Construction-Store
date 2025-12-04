@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sanitaryware — One-Build</title>
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header container">
+  <div class="brand">
+    <img src="/images/homepages/onebuild.png" alt="brand">
+    <div>
+      <div class="title">Bricks & Blocks Mart</div>
+      <div class="subtitle">Sanitaryware & Bathroom Fixtures</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="/templates/homepageindex.html">Home</a>
+    <a href="/templates/categories/insulation/index.html">Insulation</a>
+    <a href="/templates/categories/door_windows/index.html">Door & Windows</a>
+    <a href="/templates/categories/Interiordesigns/index.html">Interiordesigns</a>
+
+    <button class="cart-btn" onclick="location.href='/templates/cart.html'">
+      Cart <span id="cart-badge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+  <h1 class="page-title">Sanitaryware</h1>
+  <div class="category-title">Toilets, Basins, Faucets & Bathroom Fittings</div>
+
+  <section class="grid" id="products-grid"></section>
+</main>
+
+<!-- QUICK VIEW MODAL -->
+<div id="modal" class="modal" aria-hidden="true" role="dialog">
+  <div class="modal-box">
+
+    <button id="closeModal" class="modal-close" aria-label="Close">×</button>
+
+    <div class="modal-left">
+      <img id="modalImg" class="modal-img" alt="product image">
+    </div>
+
+    <div class="modal-right">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc" class="modal-desc"></p>
+
+      <div id="modalTags" class="tag-container"></div>
+
+      <h3 class="modal-price">₹<span id="modalPrice"></span></h3>
+
+      <label for="modalQty">Qty</label>
+      <input type="number" id="modalQty" value="1" min="1" class="qty-input">
+
+      <div class="modal-buttons">
+        <button class="add-btn" id="modalAddToCart">Add to cart</button>
+        <a href="/templates/cartpayment/cart.html" class="order-btn">Go to order</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="/javascript/cart.js"></script>
+<script>
+/* ---------------------------
+   SANITARYWARE PRODUCTS (10 ITEMS)
+   Each product now has 5 tags & 5-line descriptions
+--------------------------- */
+const productsArray = [
+  {
+    id: "sanitary-easyflush",
+    name: "Close-Coupled WC (Easy Flush)",
+    price: 5200,
+    tags: ["Water-saving","Comfort","Dual Flush","Ceramic","Durable"],
+    img: "/images/sanitaryware/Close-Coupled WC (Easy Flush).png",
+    desc: "Modern close-coupled WC with dual flush mechanism.\nReduces water consumption significantly.\nComfortable seating height for all users.\nHigh-quality ceramic ensures durability.\nEasy to clean and maintain."
+  },
+  {
+    id: "sanitary-wall-hung",
+    name: "Wall Hung Closet",
+    price: 8900,
+    tags: ["Wall-hung","Concealed","Space-saving","Modern","Durable"],
+    img: "/images/sanitaryware/Wall Hung Closet.png",
+    desc: "Elegant wall-hung closet for sleek bathrooms.\nRequires in-wall cistern for concealed installation.\nSaves floor space and improves hygiene.\nDurable ceramic finish resists stains.\nEasy to maintain and clean."
+  },
+  {
+    id: "sanitary-pt-commode",
+    name: "P-Trap Floor Mounted Pan",
+    price: 4200,
+    tags: ["Durable","Standard","Ceramic","Classic","Water-saving"],
+    img: "/images/sanitaryware/P-Trap Floor Mounted Pan.png",
+    desc: "Traditional P-trap floor-mounted pan.\nStrong ceramic finish ensures durability.\nCompatible with standard plumbing setups.\nWater-efficient design for everyday use.\nSimple and reliable for home bathrooms."
+  },
+  {
+    id: "sanitary-counter-basin",
+    name: "Counter Top Basin",
+    price: 2999,
+    tags: ["Ceramic","Designer","Modern","Durable","Easy-clean"],
+    img: "/images/sanitaryware/Counter Top Basin.png",
+    desc: "Designer counter top ceramic basin.\nModern aesthetics for contemporary bathrooms.\nDurable ceramic with smooth finish.\nEasy to clean and maintain daily.\nFits perfectly on bathroom countertops."
+  },
+  {
+    id: "sanitary-commode-seat",
+    name: "Soft-Close Seat Cover",
+    price: 799,
+    tags: ["Soft-close","Comfort","Durable","Universal","Hygienic"],
+    img: "/images/sanitaryware/Soft-Close Seat Cover.png",
+    desc: "Universal soft-close seat cover.\nPrevents slamming and noise.\nComfortable for all ages.\nDurable material for long life.\nMaintains hygiene easily."
+  },
+  {
+    id: "sanitary-washbasin-pillar",
+    name: "Pillar Cock Faucet",
+    price: 799,
+    tags: ["Brass","Chrome","Durable","Elegant","Easy-install"],
+    img: "/images/sanitaryware/Pillar Cock Faucet.png",
+    desc: "Brass pillar cock with chrome finish.\nElegant look for modern bathrooms.\nDurable against rust and corrosion.\nEasy installation with standard fittings.\nSmooth water flow with single lever."
+  },
+  {
+    id: "sanitary-mixer-wall",
+    name: "Wall Mixer (Bath)",
+    price: 2299,
+    tags: ["Mixer","Bath","Durable","Chrome","Easy-clean"],
+    img: "/images/sanitaryware/Wall Mixer (Bath).png",
+    desc: "Single lever wall mixer for bath or shower.\nChrome finish for sleek appearance.\nDurable and corrosion-resistant.\nSmooth water flow control.\nEasy to clean and maintain."
+  },
+  {
+    id: "sanitary-shower",
+    name: "Hand Shower Set (With Hose)",
+    price: 1299,
+    tags: ["Hand shower","Chrome","Flexible","Durable","Easy-install"],
+    img: "/images/sanitaryware/Hand Shower Set (With Hose).png",
+    desc: "Hand shower with 1.5m braided hose.\nDurable chrome finish resists rust.\nFlexible design for convenient use.\nWall holder included for easy installation.\nProvides comfortable water flow."
+  },
+  {
+    id: "sanitary-flush-tank",
+    name: "Concealed Cistern (In-wall)",
+    price: 3999,
+    tags: ["Concealed","Dual flush","Durable","Space-saving","Modern"],
+    img: "/images/sanitaryware/Concealed Cistern (In-wall).png",
+    desc: "In-wall concealed cistern for toilets.\nDual flush mechanism saves water.\nDurable plastic construction.\nSpace-saving design for modern bathrooms.\nEasy to maintain and install."
+  },
+  {
+    id: "sanitary-bidet",
+    name: "Health Faucet (Bidet Spray)",
+    price: 599,
+    tags: ["Hygiene","Stainless","Durable","Easy-install","Comfort"],
+    img: "/images/sanitaryware/Health Faucet (Bidet Spray).png",
+    desc: "Stainless steel bidet spray with stop valve.\nMaintains hygiene efficiently.\nDurable construction for long use.\nEasy to install with standard plumbing.\nComfortable water pressure for cleaning."
+  }
+];
+
+/* ---------------------------
+   INITIALIZE PAGE
+--------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof renderProducts === "function") {
+    renderProducts(productsArray, "products-grid");
+  } else {
+    const grid = document.getElementById("products-grid");
+    grid.innerHTML = productsArray.map(p => `
+      <div class="card">
+        <div class="thumb" onclick="openModal('${p.id}', productsArray)">
+          <img src="${p.img}" alt="${p.name}">
+        </div>
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <div class="chips">${p.tags.map(t=>`<div class="chip">${t}</div>`).join('')}</div>
+        <div class="row">
+          <button class="btn add" onclick='addToCart(${JSON.stringify({id:p.id,name:p.name,price:p.price,img:p.img})})'>Add to Cart</button>
+        </div>
+      </div>
+    `).join('');
+  }
+});
+
+/* ---------------------------
+   EXTEND MODAL TO SHOW DESCRIPTION
+--------------------------- */
+const oldModal = window.openModal;
+window.openModal = function(id, arr){
+  const list = arr || productsArray;
+  const p = list.find(x => x.id === id);
+  if(!p){
+    if(typeof oldModal === "function") return oldModal(id, arr);
+    return;
+  }
+  if (typeof oldModal === "function") oldModal(id, list);
+  const descEl = document.getElementById("m-desc");
+  if(descEl) descEl.innerText = p.desc || "";
+};
+</script>
+
+</body>
+</html>

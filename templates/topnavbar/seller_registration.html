@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ONE-BUILD | Seller Registration</title>
+
+  <style>
+    :root{
+      --glass: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.25);
+      --violet:#4f46e5;
+      --green:#10b981;
+      --red:#ef4444;
+      font-family:"Inter",sans-serif;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    body{
+      min-height:100vh;
+      background: rgb(12, 12, 12); /* UPDATED */
+      padding:0;
+    }
+
+    /* ================= White Navbar ================= */
+    nav{
+      width:100%;
+      padding:16px 45px;
+      background:white;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:20;
+      border-bottom:1px solid #e5e7eb;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+    nav .brand-wrapper{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    nav img{
+      height:38px;
+    }
+    nav .brand{
+      font-size:22px;
+      font-weight:800;
+      color:#222;
+    }
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+    }
+    nav ul li a{
+      color:#333;
+      font-size:15px;
+      text-decoration:none;
+      font-weight:600;
+      transition:0.2s;
+    }
+    nav ul li a:hover{
+      color:#d5d4eb;
+    }
+
+    /* ================= Banner ================= */
+    .banner{
+      width:100%;
+      height:240px;
+      background:url('https://i.ibb.co/PMqrgqB/construction-banner.jpg') center/cover;
+      position:relative;
+      border-bottom:2px solid rgba(255,255,255,0.3);
+    }
+    .banner::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+    }
+    .banner h2{
+      position:absolute;
+      bottom:30px;
+      left:40px;
+      font-size:34px;
+      color:white;
+      font-weight:800;
+      z-index:3;
+    }
+
+    /* ================= Card ================= */
+    .card{
+      width:90%;
+      max-width:900px;
+      margin:35px auto;
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(15px);
+      border-radius:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.4);
+      overflow:hidden;
+    }
+
+    header{
+      padding:25px;
+      text-align:center;
+      color:white;
+      border-bottom:1px solid rgba(255,255,255,0.2);
+    }
+
+    /* ================= Form ================= */
+    form{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:20px;
+      padding:32px;
+      color:white;
+    }
+
+    label{
+      display:block;
+      font-size:14px;
+      margin-bottom:6px;
+      font-weight:600;
+      color:#d0d0d0f4;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:12px 14px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid var(--glass-border);
+      border-radius:12px;
+      color:rgba(5, 4, 4, 0.601);
+      font-size:14px;
+      outline:none;
+      transition:0.3s;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      background:rgba(255,255,255,0.18);
+      border-color:white;
+      box-shadow:0 0 10px rgba(255,255,255,0.4);
+    }
+
+    textarea{min-height:90px;}
+    .full{grid-column:1/-1;}
+
+    .otp-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .otp-btn{
+      background:var(--violet);
+      color:white;
+      border:0;
+      padding:8px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .error{color:var(--red);font-size:13px;margin-top:4px;}
+    .success{color:var(--green);font-size:13px;margin-top:4px;}
+
+    .captcha-wrap{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .captcha-box{
+      padding:10px 12px;
+      font-weight:700;
+      background:rgba(186, 9, 9, 0.2);
+      border-radius:8px;
+    }
+
+    .actions{
+      grid-column:1/-1;
+      display:flex;
+      justify-content:flex-end;
+      gap:12px;
+      padding-top:10px;
+    }
+
+    button{
+      padding:10px 18px;
+      border-radius:10px;
+      border:0;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .primary{
+      background:#3801b8;
+      color:white;
+    }
+    .secondary{
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      color:white;
+    }
+
+    .home-link a{
+      color:white;
+      padding-left:32px;
+      display:inline-block;
+      margin-top:10px;
+      text-decoration:none;
+    }
+
+    @media(max-width:700px){
+      form{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= White Navbar ================= -->
+  <nav>
+    <div class="brand-wrapper">
+      <img src="/images/homepages/onebuild.png" alt="brand">
+    </div>
+
+    <ul>
+      <li><a href="/templates/homepageindex.html">Home</a></li>
+      <li><a href="/templates/firstfooter/customersupport/contact.html">Contact</a></li>
+      <li><a href="/templates/secounfooter/overview/about.html">About</a></li>
+    </ul>
+  </nav>
+
+
+
+  <!-- ================= Card ================= -->
+  <div class="card">
+    <header>
+      <h1>Register Your Business with OneBuild</h1>
+    </header>
+
+    <!-- ================= Form Start ================= -->
+    <form id="regForm" autocomplete="on" novalidate>
+
+      <div>
+        <label>Surname *</label>
+        <input id="surname" placeholder="enter surname">
+        <div class="error" id="err-surname"></div>
+      </div>
+
+      <div>
+        <label>First Name *</label>
+        <input id="firstName" placeholder="enter fullname">
+        <div class="error" id="err-firstName"></div>
+      </div>
+
+      <div>
+        <label>Email *</label>
+        <input id="gmail" type="email" placeholder="ex:you@gmail.com">
+        <div class="error" id="err-gmail"></div>
+      </div>
+
+      <div class="full">
+        <label>Select Your Business Name *</label>
+        <select id="nativeSelect">
+          <option value="">— Choose —</option>
+          <option>Aggregates</option>
+          <option>Bricks & Blocks</option>
+          <option>Cement</option>
+          <option>Lights & Electricals</option>
+          <option>Flooring</option>
+          <option>Furniture</option>
+          <option>Glass & Glazing</option>
+          <option>Insulation</option>
+          <option>Paints</option>
+          <option>Plumbing</option>
+          <option>Sand</option>
+          <option>Sanitaryware</option>
+          <option>Windows & Doors</option>
+          <option>TMT Bars</option>
+        </select>
+        <div class="error" id="err-nativeSelect"></div>
+      </div>
+
+      <div class="full">
+        <label>Address *</label>
+        <textarea id="address" maxlength="200" placeholder="Street, House No, Area"></textarea>
+        <div class="error" id="err-address"></div>
+      </div>
+
+      <div>
+        <label>City *</label>
+        <input id="city">
+        <div class="error" id="err-city"></div>
+      </div>
+
+      <div>
+        <label>Village</label>
+        <input id="village">
+      </div>
+
+      <div>
+        <label>Mandal</label>
+        <input id="mandal">
+      </div>
+
+      <div>
+        <label>Zip Code *</label>
+        <input id="zipcode" maxlength="6">
+        <div class="error" id="err-zipcode"></div>
+      </div>
+
+      <!-- Aadhaar -->
+      <div>
+        <label>Aadhaar Number *</label>
+        <div class="otp-row">
+          <input id="aadhaar" maxlength="12" placeholder="12-digit Aadhaar">
+          <button type="button" class="otp-btn" id="sendAadhaarOTP">Send OTP</button>
+        </div>
+        <div class="error" id="err-aadhaar"></div>
+      </div>
+
+      <div>
+        <label>Aadhaar OTP</label>
+        <div class="otp-row">
+          <input id="aadhaarOtp" placeholder="Enter OTP">
+          <button type="button" class="otp-btn" id="verifyAadhaarOTP">Verify</button>
+        </div>
+        <div class="error" id="err-aadhaarOtp"></div>
+        <div class="success" id="ok-aadhaarOtp"></div>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label>Mobile Number *</label>
+        <div class="otp-row">
+          <input id="phone" maxlength="10" placeholder="9876543210">
+          <button type="button" class="otp-btn" id="sendPhoneOTP">Send OTP</button>
+        </div>
+        <div class="error" id="err-phone"></div>
+      </div>
+
+      <div>
+        <label>Phone OTP</label>
+        <div class="otp-row">
+          <input id="phoneOtp" placeholder="Enter OTP">
+          <button type="button" class="otp-btn" id="verifyPhoneOTP">Verify</button>
+        </div>
+        <div class="error" id="err-phoneOtp"></div>
+        <div class="success" id="ok-phoneOtp"></div>
+      </div>
+
+      <!-- Captcha -->
+      <div class="full">
+        <label>Captcha</label>
+        <div class="captcha-wrap">
+          <div class="captcha-box" id="captchaBox"></div>
+          <input id="captchaInput" placeholder="Answer">
+          <button type="button" class="secondary" id="refreshCaptcha">Refresh</button>
+        </div>
+        <div class="error" id="err-captcha"></div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="actions">
+        <div id="formMsg"></div>
+        <button type="button" class="secondary" id="clearBtn">Clear</button>
+        <button type="submit" class="primary">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ================= JS ================= -->
+  <script>
+    function qs(id){ return document.getElementById(id); }
+    function setErr(id,msg){ qs("err-"+id).textContent = msg || ""; }
+
+    function genCaptcha(){
+      const a = Math.floor(Math.random()*10)+1;
+      const b = Math.floor(Math.random()*10)+1;
+      const ops = ["+","-","*"];
+      const op = ops[Math.floor(Math.random()*3)];
+      const expr = `${a} ${op} ${b}`;
+      let answer = eval(expr);
+      return {expr, answer};
+    }
+
+    let currentCaptcha;
+    function renderCaptcha(){
+      currentCaptcha = genCaptcha();
+      qs("captchaBox").textContent = currentCaptcha.expr;
+      qs("captchaInput").value = "";
+      setErr("captcha","");
+    }
+    renderCaptcha();
+    qs("refreshCaptcha").onclick = renderCaptcha;
+
+    function isEmailValid(mail){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail); }
+    function isAadhaarValid(a){ return /^\d{12}$/.test(a); }
+    function isZipValid(z){ return /^\d{6}$/.test(z); }
+    function isPhoneValid(p){ return /^\d{10}$/.test(p); }
+
+    let aadhaarOTP = null;
+    let phoneOTP = null;
+
+    // Aadhaar OTP
+    qs("sendAadhaarOTP").onclick = function(){
+      const a = qs("aadhaar").value.trim();
+      if(!isAadhaarValid(a)){
+        setErr("aadhaar","Enter valid 12-digit Aadhaar");
+        return;
+      }
+      aadhaarOTP = Math.floor(100000 + Math.random()*900000);
+      alert("Aadhaar OTP Sent: " + aadhaarOTP);
+    };
+
+    qs("verifyAadhaarOTP").onclick = function(){
+      const input = qs("aadhaarOtp").value.trim();
+      if(Number(input) === aadhaarOTP){
+        qs("ok-aadhaarOtp").textContent = "Aadhaar OTP Verified ✔";
+        qs("err-aadhaarOtp").textContent = "";
+      } else {
+        qs("err-aadhaarOtp").textContent = "Incorrect OTP";
+        qs("ok-aadhaarOtp").textContent = "";
+      }
+    };
+
+    // Phone OTP
+    qs("sendPhoneOTP").onclick = function(){
+      const p = qs("phone").value.trim();
+      if(!isPhoneValid(p)){
+        setErr("phone","Enter valid 10-digit mobile");
+        return;
+      }
+      phoneOTP = Math.floor(100000 + Math.random()*900000);
+      alert("Phone OTP Sent: " + phoneOTP);
+    };
+
+    qs("verifyPhoneOTP").onclick = function(){
+      const input = qs("phoneOtp").value.trim();
+      if(Number(input) === phoneOTP){
+        qs("ok-phoneOtp").textContent = "Phone OTP Verified ✔";
+        qs("err-phoneOtp").textContent = "";
+      } else {
+        qs("err-phoneOtp").textContent = "Incorrect OTP";
+        qs("ok-phoneOtp").textContent = "";
+      }
+    };
+
+    // Submit
+    const form = qs("regForm");
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      ["firstName","surname","gmail","address","city","zipcode","aadhaar","phone","captcha"]
+      .forEach(id => setErr(id,""));
+      qs("formMsg").textContent = "";
+
+      let ok = true;
+
+      const data = {
+        firstName: qs("firstName").value.trim(),
+        surname: qs("surname").value.trim(),
+        gmail: qs("gmail").value.trim(),
+        address: qs("address").value.trim(),
+        city: qs("city").value.trim(),
+        zipcode: qs("zipcode").value.trim(),
+        aadhaar: qs("aadhaar").value.trim(),
+        phone: qs("phone").value.trim(),
+        captchaInput: qs("captchaInput").value.trim()
+      };
+
+      if(!data.firstName){ setErr("firstName","Required"); ok=false; }
+      if(!data.surname){ setErr("surname","Required"); ok=false; }
+      if(!data.gmail){ setErr("gmail","Required"); ok=false; }
+      else if(!isEmailValid(data.gmail)){ setErr("gmail","Invalid Email"); ok=false; }
+
+      if(!data.address){ setErr("address","Required"); ok=false; }
+      if(!data.city){ setErr("city","Required"); ok=false; }
+
+      if(!isZipValid(data.zipcode)){ setErr("zipcode","Invalid PIN"); ok=false; }
+      if(!isAadhaarValid(data.aadhaar)){ setErr("aadhaar","Invalid Aadhaar"); ok=false; }
+      if(!isPhoneValid(data.phone)){ setErr("phone","Invalid Phone"); ok=false; }
+
+      if(qs("ok-aadhaarOtp").textContent === ""){
+        setErr("aadhaarOtp","Verify Aadhaar OTP first");
+        ok=false;
+      }
+
+      if(qs("ok-phoneOtp").textContent === ""){
+        setErr("phoneOtp","Verify Mobile OTP first");
+        ok=false;
+      }
+
+      if(!data.captchaInput){ setErr("captcha","Captcha required"); ok=false; }
+      else if(Number(data.captchaInput) !== currentCaptcha.answer){
+        setErr("captcha","Incorrect answer");
+        ok=false;
+      }
+
+      if(!ok){
+        qs("formMsg").textContent = "Please fix errors above.";
+        qs("formMsg").style.color="red";
+        return;
+      }
+
+      qs("formMsg").textContent = "Form submitted successfully!";
+      qs("formMsg").style.color="lime";
+
+      console.log("Submitted Data →", data);
+    });
+
+    qs("clearBtn").onclick = function(){
+      form.reset();
+      renderCaptcha();
+      ["firstName","surname","gmail","address","city","zipcode","aadhaar","phone","captcha"]
+      .forEach(id => setErr(id,""));
+      qs("ok-aadhaarOtp").textContent = "";
+      qs("ok-phoneOtp").textContent = "";
+      qs("formMsg").textContent = "";
+    };
+  </script>
+
+</body>
+</html>

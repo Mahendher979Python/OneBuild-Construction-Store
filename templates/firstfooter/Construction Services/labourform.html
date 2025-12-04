@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Labour Contract - OneBuild</title>
+
+<!-- ============================
+        GLOBAL ROOT COLORS
+============================ -->
+<style>
+:root{
+  --brand:#05AECB;
+  --accent:#ff7b00;
+  --bg:#f5f5f5;
+  --text:#333;
+  --muted:#6b7280;
+  --paper:#ffffff;
+  --shadow:0 10px 40px rgba(0,0,0,0.07);
+  --border:1px solid #e4e4e4;
+}
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+</style>
+
+<!-- ============================
+        NAVBAR STYLES
+============================ -->
+<style>
+.navbar {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  padding: 12px 0;
+}
+
+.nav-container {
+  width: 92%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.nav-left img {
+  width: 42px;
+}
+.nav-left .brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.nav-right {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.nav-right a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  padding: 8px 12px;
+  transition: 0.2s;
+}
+.nav-right a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+</style>
+
+<!-- ============================
+        CONTRACT PAGE STYLES
+============================ -->
+<style>
+.contract-wrap{
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--paper);
+  padding: 28px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  border: var(--border);
+}
+
+header.contract-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.brand {
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.brand img{ width:46px; height:46px; object-fit:contain; border-radius:6px; }
+.brand h1{ font-size:22px; margin:0; color:var(--brand); }
+.brand p{ margin:0; color:var(--muted); font-size:13px; }
+
+.meta {
+  text-align:right;
+  font-size:13px;
+  color:var(--muted);
+}
+
+h2.section-title{
+  margin: 18px 0 8px;
+  font-size:18px;
+  color:var(--brand);
+  border-left:4px solid var(--brand);
+  padding-left:10px;
+  font-weight:700;
+}
+
+p, li{ line-height:1.55; font-size:14px; color:var(--text); }
+ul{ padding-left: 20px; margin:8px 0; }
+
+.clause{
+  margin-bottom:12px;
+  padding:12px 14px;
+  background: #fbfcfd;
+  border-radius:6px;
+  border: 1px dashed #dfe6ea;
+}
+
+table.info{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:14px;
+}
+table.info td{ padding:8px 6px; vertical-align:top; border-bottom:1px solid #f0f0f0; }
+
+.two-col{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:20px;
+}
+
+.sign .line{
+  margin-top:40px;
+  border-top:1px solid #bbb;
+  padding-top:6px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.actions{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+}
+.btn{
+  background:var(--brand);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:600;
+  border:none;
+  cursor:pointer;
+}
+.btn.alt{
+  background:#fff;
+  color:var(--brand);
+  border:2px solid var(--brand);
+}
+
+footer.note{
+  margin-top:18px;
+  font-size:12px;
+  color:var(--muted);
+  border-top:1px dashed #e8eef2;
+  padding-top:12px;
+}
+
+@media print{
+  body{ background:#fff; }
+  .navbar, .actions { display:none; }
+  .contract-wrap { box-shadow:none; border:none; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ============================
+          NAVBAR
+============================ -->
+<div class="navbar">
+  <div class="nav-container">
+    <div class="nav-left">
+      <img src="/images/homepages/onebuild.png">
+    </div>
+
+    <div class="nav-right">
+      <a href="/templates/homepageindex.html">Home</a>
+      <a href="/templates/firstfooter/customersupport/contact.html">Contact</a>
+      <a href="/templates/firstfooter/Construction Services/labourregister.html">Labour Register</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================
+       CONTRACT CONTENT
+============================ -->
+<div class="contract-wrap" id="contract">
+
+  <header class="contract-header">
+    <div class="brand">
+      <img src="/images/homepages/onebuild.png" alt="">
+      <div>
+        <h1>Labour Contract</h1>
+        <p>OneBuild — Labour Agreement Template</p>
+      </div>
+    </div>
+
+    <div class="meta">
+      <strong>Contract No:</strong> OB-LAB-2025-001<br>
+      <strong>Date:</strong> <span id="cdate">__________</span>
+    </div>
+  </header>
+
+  <section>
+
+    <p>This Labour Contract ("Contract") is made between the Employer and the Worker.</p>
+
+    <h2 class="section-title">Parties</h2>
+    <div class="clause">
+      <table class="info">
+        <tr>
+          <td>
+            <strong>Employer (Contractor)</strong><br>
+            Name: __________<br>
+            Business/Company: __________<br>
+            Address: __________
+          </td>
+          <td>
+            <strong>Worker / Labour</strong><br>
+            Name: __________<br>
+            Aadhaar / ID: __________<br>
+            Address: __________
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h2 class="section-title">1. Scope of Work</h2>
+    <div class="clause">
+      <ul>
+        <li>General construction labour duties.</li>
+        <li>Follow instructions of the Site Supervisor.</li>
+        <li>Additonal tasks if agreed in writing.</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">2. Work Period</h2>
+    <div class="clause">
+      Start Date: __________  
+      <br>End Date: __________  
+      <br>Working Hours: __________
+    </div>
+
+    <h2 class="section-title">3. Wages</h2>
+    <div class="clause">
+      Rate: ₹ __________ per day/week/month.  
+      <br>Payment Mode: Cash / UPI / Bank Transfer.
+    </div>
+
+    <h2 class="section-title">4. Overtime</h2>
+    <div class="clause">
+      Overtime rate: 1.5x hourly wage.
+    </div>
+
+    <h2 class="section-title">5. Safety</h2>
+    <div class="clause">
+      Employer will provide PPE and safe working environment.
+    </div>
+
+    <h2 class="section-title">6. Termination</h2>
+    <div class="clause">
+      Either party may terminate with written notice.
+    </div>
+
+    <h2 class="section-title">Signatures</h2>
+    <div class="two-col">
+      <div class="sign">
+        <div class="line">Employer / Contractor</div>
+      </div>
+      <div class="sign">
+        <div class="line">Worker / Labour</div>
+      </div>
+    </div>
+
+    <footer class="note">
+      Note: This is a general template.
+    </footer>
+
+  </section>
+
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn alt" onclick="downloadHTML()">Download HTML</button>
+  </div>
+
+</div>
+
+<!-- ============================
+          JS
+============================ -->
+<script>
+(function(){
+  const d = document.getElementById("cdate");
+  if(d.innerText.includes("__________")){
+    d.innerText = new Date().toLocaleDateString("en-IN");
+  }
+})();
+function downloadHTML(){
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:"text/html"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "labour-contract-onebuild.html";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
